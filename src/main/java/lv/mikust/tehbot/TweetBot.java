@@ -19,8 +19,6 @@ public class TweetBot {
         WebRequests webRequests = new WebRequests();
     }
 
-    // Stream listener
-
     private static UserStreamListener listener = new UserStreamListener() {
         @Override
         public void onStatus(Status status) {

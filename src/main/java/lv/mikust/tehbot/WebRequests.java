@@ -7,7 +7,7 @@ package lv.mikust.tehbot;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class WebRequests extends TweetBot {
+public class WebRequests {
 
 
     public static String getGet(String url) throws Exception {  // getter

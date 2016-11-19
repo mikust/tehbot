@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import com.google.gson.*;
@@ -27,13 +28,24 @@ public class GetOpenWeather {
         Gson gson = new Gson();
         InputStreamReader inputStreamReader = new InputStreamReader((InputStream) request.getContent());
         OpenWeatherData openWeatherData = gson.fromJson(inputStreamReader, OpenWeatherData.class);
-        String result = " City: " + openWeatherData.getName()
+        String WindArrow = getWindDirecton(openWeatherData.getWind().getDeg());
+        String result = "\nCity: " + openWeatherData.getName()
                 + "\nWeather: " + openWeatherData.getWeather().get(0).getDescription()
                 + "\nTemperature: " + openWeatherData.getMain().getTemp()
-                + "\nWind speed: " + openWeatherData.getWind().getSpeed()
+                + "\nWind speed: " + openWeatherData.getWind().getSpeed() + WindArrow
                 + "\nSunrise: " + getSun(openWeatherData.getSys().getSunrise())
                 + "\nSunset: " + getSun(openWeatherData.getSys().getSunset());
         return result;
+    }
+
+    public String getWindDirecton(Double winDegrees) {
+        WindDirection windDirection = new WindDirection();
+        HashMap<Integer, String> hashMap = windDirection.getHashmap();
+        // https://www.campbellsci.com/blog/convert-wind-directions
+        Long windDir = Math.round((winDegrees % 360 / 45) % 8);
+        // stupid workaround, but its 1AM :)
+        int stupid = windDir.intValue();
+        return hashMap.get(stupid);
     }
 
     public String getSun(long unixTime) {
