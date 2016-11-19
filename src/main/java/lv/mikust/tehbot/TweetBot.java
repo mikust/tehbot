@@ -12,6 +12,7 @@ public class TweetBot {
     private static final Logger logger = Logger.getLogger(TwitterStream.class);
 
     public static void main(String[] args) throws TwitterException {
+        logger.info("TweetBot created by Mikus (c11)");
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(listener);
         twitterStream.user();
