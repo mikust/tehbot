@@ -24,28 +24,17 @@ public class TweetBot {
         @Override
         public void onStatus(Status status) {
             logger.info("Message: " + status.getUser().getScreenName() + " - " + status.getText());
-            Twitter twitter = new TwitterFactory().getInstance();
-
             // Responds with help message
             if (status.getText().toLowerCase().contains("!help")) {
-                StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + " sup?");
-                statusUpdate.inReplyToStatusId(status.getId());
-                try {
-                    twitter.updateStatus(statusUpdate);
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                }
+                sendResponse(status, "Awailable commands\n!d <domain> - returns webserver version\n!w <city> - returns current weather.");
 
-                // Prints info about webpage
             } else if (status.getText().toLowerCase().contains("!d")) {
                 ExtractUri extractUri = new ExtractUri();
                 if (extractUri.splitText(status.getText()) != null) {
                     String domainName = extractUri.splitText(status.getText());
+                    logger.info("Sending GET / request to " + domainName);
                     try {
-                        logger.info("Sending GET / request to " + domainName);
-                        StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + WebRequests.getGet(domainName));
-                        statusUpdate.inReplyToStatusId(status.getId());
-                        twitter.updateStatus(statusUpdate);
+                        sendResponse(status, WebRequests.getGet(domainName));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -54,16 +43,24 @@ public class TweetBot {
                 GetOpenWeather getOpenWeather = new GetOpenWeather();
                 String[] city = status.getText().toLowerCase().split(" ");
                 getOpenWeather.setCity(city[2]);
+                logger.info("Sending weather tweet");
                 try {
-                    logger.info("Sending weather tweet");
                     String weatherTweet = getOpenWeather.slurpData();
-                    StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + weatherTweet);
-                    statusUpdate.inReplyToStatusId(status.getId());
-                    twitter.updateStatus(statusUpdate);
-                } catch (IOException | TwitterException e) {
+                    sendResponse(status, weatherTweet);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
 
+        public void sendResponse(Status status, String response) {
+            Twitter twitter = new TwitterFactory().getInstance();
+            StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + " " + response);
+            statusUpdate.inReplyToStatusId(status.getId());
+            try {
+                twitter.updateStatus(statusUpdate);
+            } catch (TwitterException e) {
+                e.printStackTrace();
             }
         }
 
