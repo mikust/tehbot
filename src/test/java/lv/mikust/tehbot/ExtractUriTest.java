@@ -1,12 +1,14 @@
+/**
+ * Created by mikus on 2016.11.19.
+ */
+
 package lv.mikust.tehbot;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by mikus on 2016.11.19..
- */
+
 public class ExtractUriTest {
     @org.junit.Test
     public void testURI() throws Exception {
