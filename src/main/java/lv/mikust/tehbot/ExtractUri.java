@@ -23,7 +23,7 @@ public class ExtractUri {
 
     // Returns domain name if matches regex
     public String testURI(String word) {
-        Pattern pattern = Pattern.compile("^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{1,6}$");
+        Pattern pattern = Pattern.compile("^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$");
         Matcher matcher = pattern.matcher(word);
         if (matcher.matches()) {
             return "";
