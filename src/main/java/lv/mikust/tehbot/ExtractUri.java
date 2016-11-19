@@ -1,6 +1,7 @@
 /**
  * Created by mikus on 2016.11.11.
  */
+
 package lv.mikust.tehbot;
 
 import java.util.StringTokenizer;

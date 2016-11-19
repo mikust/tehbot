@@ -1,6 +1,7 @@
 /**
- * Created by mikus on 07/11/2016.
+ * Created by mikus on 2016.11.7.
  */
+
 package lv.mikust.tehbot;
 
 import twitter4j.*;

@@ -1,10 +1,10 @@
 /**
  * Created by mikus on 2016.11.19.
  */
+
 package lv.mikust.tehbot;
 
 import java.util.List;
-
 
 public class OpenWeatherData {
     /**
