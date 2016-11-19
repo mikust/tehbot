@@ -5,8 +5,11 @@ package lv.mikust.tehbot;
 
 import twitter4j.*;
 
+import java.io.IOException;
+
 public class TweetBot {
     private static final Logger logger = Logger.getLogger(TwitterStream.class);
+
     public static void main(String[] args) throws TwitterException {
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(listener);
@@ -46,6 +49,20 @@ public class TweetBot {
                         e.printStackTrace();
                     }
                 }
+            } else if (status.getText().toLowerCase().contains("!w")) {
+                GetOpenWeather getOpenWeather = new GetOpenWeather();
+                String[] city = status.getText().toLowerCase().split(" ");
+                getOpenWeather.setCity(city[2]);
+                try {
+                    logger.info("Sending weather tweet");
+                    String weatherTweet = getOpenWeather.slurpData();
+                    StatusUpdate statusUpdate = new StatusUpdate("@" + status.getUser().getScreenName() + weatherTweet);
+                    statusUpdate.inReplyToStatusId(status.getId());
+                    twitter.updateStatus(statusUpdate);
+                } catch (IOException | TwitterException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
 
@@ -67,7 +84,7 @@ public class TweetBot {
 
         @Override
         public void onStallWarning(StallWarning warning) {
-            System.out.println("Stall warning: " + warning);
+            logger.info("Stall warning: " + warning);
         }
 
         @Override
