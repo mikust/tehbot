@@ -16,7 +16,6 @@ public class TweetBot {
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(listener);
         twitterStream.user();
-        WebRequests webRequests = new WebRequests();
     }
 
     private static UserStreamListener listener = new UserStreamListener() {
@@ -28,6 +27,7 @@ public class TweetBot {
                 sendResponse(status, "Awailable commands\n!d <domain> - returns webserver version\n!w <city> - returns current weather.");
 
             } else if (status.getText().toLowerCase().contains("!d")) {
+                WebRequests webRequests = new WebRequests();
                 ExtractUri extractUri = new ExtractUri();
                 if (extractUri.splitText(status.getText()) != null) {
                     String domainName = extractUri.splitText(status.getText());
