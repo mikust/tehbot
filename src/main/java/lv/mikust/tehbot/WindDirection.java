@@ -7,7 +7,7 @@ package lv.mikust.tehbot;
 import java.util.HashMap;
 
 public class WindDirection {
-    public static final HashMap<Integer, String> hashMap;
+    private static final HashMap<Integer, String> hashMap;
 
     static {
         hashMap = new HashMap<Integer, String>();
