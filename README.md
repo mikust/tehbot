@@ -1,13 +1,7 @@
 Twitter bot made in Java
 ======================================
 Simple Twitter bot for my Java course. Responds to commands sent to him.
-Supported commands:
-
-`!help - prints short help message`
-
-`!d domain - returns web server version of domain if any`
-
-`!w city - returns current weather in "city"`
+Just tweet him a city name and you will get response with current weather data there.
 
 Install
 -------
@@ -20,4 +14,4 @@ Config
 
 License
 -------
-This plugin is released under the MIT license.
+This code is released under the MIT license.

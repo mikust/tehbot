@@ -12,7 +12,6 @@ public class TweetBot {
     private static final Logger logger = Logger.getLogger(TwitterStream.class);
 
     public static void main(String[] args) throws TwitterException {
-        logger.info("TweetBot created by Mikus (c11)");
         TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
         twitterStream.addListener(listener);
         twitterStream.user();
@@ -22,26 +21,10 @@ public class TweetBot {
         @Override
         public void onStatus(Status status) {
             logger.info("Message: " + status.getUser().getScreenName() + " - " + status.getText());
-            // Responds with help message
-            if (status.getText().toLowerCase().contains("!help")) {
-                sendResponse(status, "Awailable commands\n!d <domain> - returns webserver version\n!w <city> - returns current weather.");
-
-            } else if (status.getText().toLowerCase().contains("!d")) {
-                WebRequests webRequests = new WebRequests();
-                ExtractUri extractUri = new ExtractUri();
-                if (extractUri.splitText(status.getText()) != null) {
-                    String domainName = extractUri.splitText(status.getText());
-                    logger.info("Sending GET / request to " + domainName);
-                    try {
-                        sendResponse(status, WebRequests.getGet(domainName));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (status.getText().toLowerCase().contains("!w")) {
-                GetOpenWeather getOpenWeather = new GetOpenWeather();
-                String[] city = status.getText().toLowerCase().split(" ");
-                getOpenWeather.setCity(city[2]);
+            GetOpenWeather getOpenWeather = new GetOpenWeather();
+            String[] city = status.getText().toLowerCase().split(" ");
+            getOpenWeather.setCity(city[1]);
+            if (city.length == 2) {
                 logger.info("Sending weather tweet");
                 try {
                     String weatherTweet = getOpenWeather.slurpData();
